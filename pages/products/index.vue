@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper">
       <v-col cols="12" xl="12" md="12" lg="12">
-          <v-container>
+          <v-container class="container-wrap">
+            <SearchBar :productList="productList"/>
             <v-row class="wrapper-row">
                 <v-col class="wrapper-row-item pa-3" cols="12" xl="3" md="4" lg="4" sm="6" xs="12" v-for="product in productList" :key="product.id">
                     <v-skeleton-loader
@@ -25,6 +26,7 @@
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import ProductItem from '../../components/Product/Product-Item.vue';
+import SearchBar from '../../components/SearchBar.vue';
 
 export default {
     // async fetch() {
@@ -42,7 +44,7 @@ export default {
         }
     },
     layout: 'products',
-    components: { ProductItem },
+    components: { ProductItem, SearchBar },
     computed: {
         ...mapGetters({
             productList: 'product/getProductList'
@@ -63,7 +65,7 @@ export default {
         async getProductListFromStore() {
             await this.getProducts();
             this.isLoading = false;
-        }
+        },
     },
     created() {
         this.getProductListFromStore();
@@ -84,5 +86,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+ @media only screen and (min-width: 1900px)  {
+    .container-wrap{
+        max-width: 1400px;
+    }
 }
 </style>

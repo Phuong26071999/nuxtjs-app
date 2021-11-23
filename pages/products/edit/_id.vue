@@ -28,7 +28,7 @@ export default {
                     title: product.title, 
                     type: product.type, 
                     quantity: product.quantity, 
-                    price: product.price, 
+                    price: Number(product.price), 
                     img: product.img
                 });
                 if(res.status === 200){

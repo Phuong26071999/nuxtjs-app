@@ -135,13 +135,13 @@ export default {
   .text-overline{
     text-align: center;
     display: flex;
-    align-items: center;
     justify-content: center;
     text-transform: uppercase;
     font-size: 16px;
     font-weight: bold;
     width: 100%;
-    height: 40px;
+    height: 50px;
+    line-height: 18px;
     /* margin-top: 5px; */
   }
   .v-list-item__content{
