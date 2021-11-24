@@ -55,7 +55,10 @@ export default {
 
 <style lang='css' scoped>
     .wrapper{
-        height: 700px;
+        min-height: calc(100vh - 224px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .loading{
         width: 100%;

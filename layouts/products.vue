@@ -1,12 +1,9 @@
 <template>
     <v-app>
-        <div class="product-wrapper">
-            <Header />
-            <nuxt />
-            <Footer />
-        </div>
+        <Header class="header"/>
+        <nuxt class="component"/>
+        <Footer class="footer"/>
     </v-app>
-    
 </template>
 
 <script>
@@ -24,7 +21,15 @@ export default {
 </script>
 
 <style>
-.product-wrapper{
+/* .product-wrapper{
     min-height: 700px;
-}
+} */
+
+/* .footer{
+    line-height: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+} */
 </style>

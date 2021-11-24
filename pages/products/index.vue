@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
       <v-col cols="12" xl="12" md="12" lg="12">
+          <SearchBar />
           <v-container class="container-wrap">
-            <SearchBar :productList="productList"/>
             <v-row class="wrapper-row">
                 <v-col class="wrapper-row-item pa-3" cols="12" xl="3" md="4" lg="4" sm="6" xs="12" v-for="product in productList" :key="product.id">
                     <v-skeleton-loader
@@ -87,6 +87,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
  @media only screen and (min-width: 1900px)  {
     .container-wrap{
         max-width: 1400px;

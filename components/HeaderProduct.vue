@@ -65,6 +65,9 @@ export default {
 .title-bar{
     width: 300px !important;
 }
+.v-toolbar__extension{
+  padding-bottom: 35px;
+}
 .btn-add{
   background: yellow !important;
 }

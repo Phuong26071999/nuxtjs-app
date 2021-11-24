@@ -42,8 +42,8 @@
         </v-row>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item class="btn-box">
-          <v-card-actions>
+    <div class="btn-box">
+        <v-card-actions>
           <v-btn
             outlined
             rounded
@@ -64,7 +64,7 @@
             Detail
           </v-btn>
         </v-card-actions>
-    </v-list-item>
+    </div>
     <v-dialog v-model="dialogDelete" max-width="600px">
       <v-card>
         <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
@@ -123,7 +123,7 @@ export default {
   .btn-box{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-bottom: 5px;
   }
   .img-box{
@@ -150,11 +150,15 @@ export default {
   .info{
     text-align: center;
     display: flex;
-    margin: 0 20px;
-    font-weight: 600;
+    margin: 5px 0px;
+    justify-content: space-between;
+    font-weight: 500;
   }
   .info.--modified{
     background-color: unset !important;
+  }
+  .v-list-item__title{
+    font-size: 14px;
   }
   .card-box{
     position: relative;
@@ -186,10 +190,17 @@ export default {
             0px 0px 0px 0px rgb(0 0 0 / 12%);
   }
   .del{
-    display: flex;
+    /* display: flex;
     justify-content: end;
     top: 20px;
+    right: 5px; */
+    position: relative;
+    height: 42px;
+  }
+  .del button{
+    position: absolute;
     right: 5px;
+    top: 5px;
   }
   .del span{
     color: #ff5252;

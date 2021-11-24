@@ -5,15 +5,15 @@
         </div>
         <ul class="search-box-list" v-if="searchText">
             <li v-for="result in resultSearch" :key="result.id">
-                <v-img 
-                    max-height="70"
-                    max-width="70"
-                    :src="result.img"
-                ></v-img>
                 <router-link
-                :to="`/products/${result.id}`"
-                v-html="result.title"
-                ></router-link>
+                :to="`/products/${result.id}`">
+                    <v-img 
+                        max-height="70"
+                        max-width="70"
+                        :src="result.img"
+                    ></v-img>
+                    <span>{{ result.title }}</span>
+                </router-link>
             </li>
             <div class="emptysearch" v-if="emptySearch" >
                 <p>Not found your product</p>
@@ -24,9 +24,10 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
     name: 'SearchBar',
-    props: [ "productList" ],
     data() {
         return{
             searchText: "",
@@ -34,7 +35,18 @@ export default {
             resultSearch: [],
         }
     },
+    computed: {
+        ...mapGetters({
+            productList: 'product/getProductList'
+        }),
+    },
     methods: {
+        ...mapActions({
+            getProducts: 'product/getProducts'
+        }),
+        async getProductListFromStore() {
+            await this.getProducts();
+        },
         handleSearch() {
             if (this.searchText.length) {
                 let filterProduct = this.productList.filter((product) => {
@@ -62,7 +74,10 @@ export default {
         clearSearchBar(){
             console.log('click');
             this.searchText = "";
-        }
+        },
+    },
+    created() {
+        this.getProductListFromStore();
     },
     watch: {
         searchText() {
@@ -73,7 +88,7 @@ export default {
 }
 </script>
 
-<style lang="scss"> 
+<style lang="scss" scoped> 
     .search-wrapper{
         width: 100%;
         display: flex;
@@ -107,13 +122,14 @@ export default {
                 .v-image__image{
                     border-radius: 5px;
                 }
-                a{
+                a, span{
                     display: flex;
                     align-items: center;
                     text-decoration: none;
                     color: black;
                     font-weight: 600;
                     padding-left: 10px;
+                    width: 100%;
                 }
                 &:hover{
                     cursor: pointer;

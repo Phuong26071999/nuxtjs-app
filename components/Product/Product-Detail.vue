@@ -106,10 +106,10 @@ export default {
 
 <style lang="scss" scoped>
     .wrapper{
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 700px; 
         width: 100%;
     }
     .wrapper-card{
@@ -171,7 +171,7 @@ export default {
             .product-des{
                 margin: 0 auto;
                 .pro-title{
-                    font-size: 18px !important;
+                    font-size: 16px !important;
                 }
                 .v-card__subtitle{
                     font-size: 13px !important;
@@ -193,7 +193,9 @@ export default {
                     width: 100%;
                 }
             }
-            
+        }
+        .v-card__text{
+            font-size: 12px;
         }
         
     }
