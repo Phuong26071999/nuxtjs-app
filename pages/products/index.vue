@@ -4,7 +4,7 @@
           <SearchBar />
           <v-container class="container-wrap">
             <v-row class="wrapper-row">
-                <v-col class="wrapper-row-item pa-3" cols="12" xl="3" md="4" lg="4" sm="6" xs="12" v-for="product in productList" :key="product.id">
+                <v-col class="wrapper-row-item pa-3" cols="12" xl="3" md="4" lg="4" sm="6" v-for="product in productList" :key="product.id">
                     <v-skeleton-loader
                         v-bind="attrs"
                         type="card-avatar, actions"
@@ -22,24 +22,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import ProductItem from '../../components/Product/Product-Item.vue';
 import SearchBar from '../../components/SearchBar.vue';
 
-export default {
+export default Vue.extend({
     // async fetch() {
     //     await this.getProducts();
     // },
     name: 'product',
     data() {
         return{
-            isLoading: true,
+            isLoading: true as boolean,
             attrs: {
-                class: 'mb-6',
-                boilerplate: true,
-                elevation: 2,
+                class: 'mb-6' as string,
+                boilerplate: true as boolean,
+                elevation: 2 as number,
             },
         }
     },
@@ -54,43 +54,40 @@ export default {
         ...mapActions({
             getProducts: 'product/getProducts'
         }),
-        handleDetail(product) {
+        handleDetail(product: any): void {
             this.$router.push(`/products/${product.id}`);
         },
         refetchProducts() {
             setTimeout(async() => {
-                await this.getProducts()
+                try {
+                    await this.getProducts()
+                } catch (error) {
+                    console.log(error);
+                }
             }, 1000);
         },
         async getProductListFromStore() {
-            await this.getProducts();
+            try {
+                await this.getProducts();
+            } catch (error) {
+                console.log(error);
+            }
             this.isLoading = false;
         },
     },
     created() {
         this.getProductListFromStore();
     },
-}
+})
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
     .wrapper{
-        min-height: 700px;
+        min-height: 600px;
     }
-    .title{
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold ; 
-}
-.wrapper-row-item{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
- @media only screen and (min-width: 1900px)  {
-    .container-wrap{
-        max-width: 1400px;
+    @media only screen and (min-width: 1900px)  {
+        .container-wrap{
+            max-width: 1400px;
+        }
     }
-}
 </style>

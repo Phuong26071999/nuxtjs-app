@@ -2,6 +2,7 @@
     <div class="search-wrapper">
         <div class="search-input">
             <v-text-field  label="Search for product" v-model="searchText"></v-text-field>
+            <v-btn @click="getSearch">Search</v-btn>
         </div>
         <ul class="search-box-list" v-if="searchText">
             <li v-for="result in resultSearch" :key="result.id">
@@ -16,29 +17,34 @@
                 </router-link>
             </li>
             <div class="emptysearch" v-if="emptySearch" >
-                <p>Not found your product</p>
+                <p>Not found your product !</p>
             </div>
         </ul>
         <div v-show="searchText" class="modal" @click="clearSearchBar"></div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 
-export default {
+export default Vue.extend({
     name: 'SearchBar',
     data() {
         return{
-            searchText: "",
-            emptySearch: false,
-            resultSearch: [],
+            searchText: "" as string,
+            emptySearch: false as boolean,
+            resultSearch: [] as any,
+            // resultList: [] as any,
         }
     },
     computed: {
         ...mapGetters({
             productList: 'product/getProductList'
         }),
+        // column1(){
+        //     return this.resultList.slice(0, Math.floor(this.resultList.length / 2) 
+        // },
     },
     methods: {
         ...mapActions({
@@ -49,7 +55,7 @@ export default {
         },
         handleSearch() {
             if (this.searchText.length) {
-                let filterProduct = this.productList.filter((product) => {
+                let filterProduct = this.productList.filter((product: any) => {
                     if (
                         (product.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
                         product.type
@@ -75,6 +81,10 @@ export default {
             console.log('click');
             this.searchText = "";
         },
+        getSearch() {
+            this.$router.push({path: "/products", query: { wordsearch: this.searchText } });
+            this.searchText = "";
+        }
     },
     created() {
         this.getProductListFromStore();
@@ -85,7 +95,7 @@ export default {
             console.log(this.searchText);
         }
     },
-}
+})
 </script>
 
 <style lang="scss" scoped> 
@@ -98,6 +108,7 @@ export default {
         .search-input{
             width: 40%;
             z-index: 100;
+            display: flex;
         }
         .search-box-list{
             position: absolute;

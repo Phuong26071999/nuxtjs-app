@@ -110,6 +110,11 @@ export default {
           icon: 'mdi-dropbox',
           title: 'Products',
           to: '/products'
+        },
+        {
+          icon: 'mdi-dropbox',
+          title: 'Images',
+          to: '/search-image'
         }
       ],
       miniVariant: false,
@@ -120,3 +125,4 @@ export default {
   }
 }
 </script>
+

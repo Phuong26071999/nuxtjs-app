@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 .container {
   min-height: 100vh;

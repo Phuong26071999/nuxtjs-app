@@ -8,7 +8,7 @@
             </v-progress-circular>
             <span>Loading...</span>
         </div>
-        <v-col cols="12" xl="4" md="4" lg="4" v-else>
+        <v-col cols="10" xl="4" md="8" lg="8" v-else>
             <v-row class="wrapper-row">
                 <v-col cols="12" xl="12" md="12" lg="12">
                     <h1 style="text-align: center">ADD PRODUCT</h1>
@@ -63,10 +63,11 @@
     </v-container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 
-export default {
+export default Vue.extend({
     name: 'FormProduct',
     props:['onReceiveHandleEdit','onReceiveHandleSubmit', 'turnOffLoading'],
     data() {
@@ -79,11 +80,11 @@ export default {
                 price: 0,
                 img: null,
             },
-            productStore: {},
-            isLoading: true,
-            valid: true,
+            productStore: {} as any,
+            isLoading: true as boolean,
+            valid: true as boolean,
             textRules: [
-                v => !! v || 'Input is empty !!!',
+                (v: any)  => !! v || 'Input is empty !!!',
             ],
         };
     },
@@ -99,13 +100,13 @@ export default {
             getProductID: 'product/getProductID',
         }),
         validate () {
-            this.$refs.form.validate()
+            (this.$refs.form as Vue & { validate: () => boolean }).validate()
         },
         reset () {
-            this.$refs.form.reset()
+            (this.$refs.form as Vue & { reset: () => void }).reset()
         },
         resetValidation () {
-            this.$refs.form.resetValidation()
+            (this.$refs.form as Vue & { resetValidation: () => boolean }).resetValidation()
         },
         backList() {
             this.$router.push({name: 'products'});
@@ -146,10 +147,10 @@ export default {
         console.log(this.product);
     },
 
-}
+})
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .wrapper-center{
     display: flex;
     justify-content: center;

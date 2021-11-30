@@ -14,11 +14,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import {mapGetters, mapActions} from 'vuex';
-import ProductDetail from '../../components/Product/Product-Detail';
+import ProductDetail from '@/components/Product/Product-Detail.vue';
 
-export default {
+export default Vue.extend({
 
     name: "productID",
     layout: 'products',
@@ -28,8 +29,8 @@ export default {
     // },
     data(){
         return{
-            product: {},
-            isLoading: true,
+            product: {} as any,
+            isLoading: true as boolean,
         }
     },
     computed: {
@@ -50,7 +51,7 @@ export default {
     created(){
         this.getProductFromStore();
     }
-}
+})
 </script>
 
 <style lang='css' scoped>

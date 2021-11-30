@@ -5,104 +5,101 @@
       min-height="370"
       outlined
     >
-    <div class="del">
-      <v-btn
-        icon
-        color="pink"
-        @click="turnOnDialog"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </div>
-    <v-list-item three-line>
-      <v-list-item-content>
-        <div class="text-overline mb-4">
-          {{ ProductItem.title }}
-        </div>
-        <div class="img-box">
-          <v-img
-              class="img-shadow"
-              lazy-src="https://picsum.photos/id/11/10/6"
-              max-height="250"
-              max-width="250"
-              :src="ProductItem.img"
-          ></v-img>
-        </div>
-        <v-row class="info --modified">
-          <v-col>
-            <v-list-item-title>
-              Type: {{ ProductItem.type }}
-            </v-list-item-title>
-          </v-col>
-          <v-col>
-            <v-list-item-title>
-              Price: {{ checkPrice(ProductItem.price) }}
-            </v-list-item-title>
-          </v-col>
-        </v-row>
-      </v-list-item-content>
-    </v-list-item>
-    <div class="btn-box">
-        <v-card-actions>
-          <v-btn
-            outlined
-            rounded
-            text
-            class="add"
-          >
-            Add To Card
-          </v-btn>
-        </v-card-actions>
-        <v-card-actions>
-          <v-btn
-            outlined
-            rounded
-            text
-            class="detail"
-            @click="handleDetail(ProductItem)"
-          >
-            Detail
-          </v-btn>
-        </v-card-actions>
-    </div>
-    <v-dialog v-model="dialogDelete" max-width="600px">
-      <v-card>
-        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-          <v-btn color="blue darken-1" text @click="handleDelete">OK</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <div class="d-flex justify-end">
+        <v-btn
+          icon
+          color="pink"
+          @click="turnOnDialog"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
+      <v-list-item three-line>
+        <v-list-item-content>
+          <div class="text-overline mb-4">
+            {{ ProductItem.title }}
+          </div>
+          <div class="img-box">
+            <v-img
+                class="img-shadow"
+                lazy-src="https://picsum.photos/id/11/10/6"
+                max-height="250"
+                max-width="250"
+                :src="ProductItem.img"
+            ></v-img>
+          </div>
+          <v-row class="info --modified">
+            <v-col>
+              <v-list-item-title>
+                Type: {{ ProductItem.type }}
+              </v-list-item-title>
+            </v-col>
+            <v-col>
+              <v-list-item-title>
+                Price: {{ checkPrice(ProductItem.price) }}
+              </v-list-item-title>
+            </v-col>
+          </v-row>
+        </v-list-item-content>
+      </v-list-item>
+      <div class="btn-box">
+          <v-card-actions>
+            <v-btn
+              depressed
+              color="error"
+            >
+              Add To Card
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn
+              depressed
+              color="success"
+              @click="handleDetail(ProductItem)"
+            >
+              Detail
+            </v-btn>
+          </v-card-actions>
+      </div>
+      <v-dialog v-model="dialogDelete" max-width="600px">
+        <v-card>
+          <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+            <v-btn color="blue darken-1" text @click="handleDelete">OK</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { callApiDelProduct } from '../../api/product';
 
-export default {
+export default Vue.extend({
     name: 'product-item',
     data(){
       return{
-        dialogDelete: false,
+        dialogDelete: false as boolean,
       };
     },
     props: ['ProductItem', 'handleDetail', 'onReceiveDelProduct'],
     methods: {
-      checkPrice(price) {
+      checkPrice(price: number) {
         if(Number.isInteger(price % 2)){
           return `$${price}.00`;
         }else{
           return `$${price}`;
         }
       },
-      turnOnDialog() {
+      turnOnDialog(): void {
         this.dialogDelete = true;
         console.log(this.dialogDelete);
       },
-      closeDelete() {
+      closeDelete(): void {
         this.dialogDelete = false;
       },
       async handleDelete() {
@@ -116,16 +113,17 @@ export default {
           }
       }
     }
-}
+})
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
   .btn-box{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin-bottom: 5px;
+    margin-bottom: 5px;  
   }
+
   .img-box{
     height: 250px;
     display: flex;
@@ -171,38 +169,5 @@ export default {
     transition: ease 0.5s;
     box-shadow: 0px 2px 2px 1px rgb(0 0 0 / 20%), 0px 1px 5px 1px rgb(0 0 0 / 14%),
             0px 0px 0px 0px rgb(0 0 0 / 12%);
-  }
-  .add{
-    background: #ff5252;
-    color: white;
-    box-shadow: 0px 1px 1px -1px rgb(0 0 0 / 20%), 0px 1px 5px 1px rgb(0 0 0 / 14%),
-            0px 0px 0px 0px rgb(0 0 0 / 12%);
-    
-  }
-  .add span, .detail span{
-    color: #ffffff;
-    font-weight: 700;
-  }
-  .detail{
-    background: #1a9688;
-    color: white;
-    box-shadow: 0px 1px 1px -1px rgb(0 0 0 / 20%), 0px 1px 5px 1px rgb(0 0 0 / 14%),
-            0px 0px 0px 0px rgb(0 0 0 / 12%);
-  }
-  .del{
-    /* display: flex;
-    justify-content: end;
-    top: 20px;
-    right: 5px; */
-    position: relative;
-    height: 42px;
-  }
-  .del button{
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-  .del span{
-    color: #ff5252;
   }
 </style>

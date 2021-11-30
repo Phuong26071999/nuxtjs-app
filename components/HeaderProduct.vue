@@ -34,8 +34,11 @@
       </v-btn>
 
       <template v-slot:extension>
-        <v-btn class="btn-add" @click="addpro">
+        <v-btn class="btn-add" link to="/products/create">
             Add Product
+        </v-btn>
+        <v-btn class="btn-back" link to="/">
+            Home Page
         </v-btn>
       </template>
     </v-app-bar>
@@ -54,14 +57,13 @@ export default {
     name: "Header",
     methods: {
         addpro() {
-            this.$router.push({name: 'products-create'});
+            this.$router.push({path: "/products/create", query: { plan: 'private' } });
         }
-    }
-
+    },
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
 .title-bar{
     width: 300px !important;
 }
@@ -70,8 +72,12 @@ export default {
 }
 .btn-add{
   background: yellow !important;
+  margin-right: 5px;
 }
-.btn-add span{
+.btn-back{
+  background: rgb(9, 230, 9) !important;
+}
+.btn-add span, .btn-back span{
   color: #000;
   font-weight: 700;
 }

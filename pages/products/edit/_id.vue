@@ -7,23 +7,24 @@
   </div>
 </template>
 
-<script>
-import FormProduct from '../../../components/Form/FormProduct';
+<script lang="ts">
+import Vue from 'vue';
+import FormProduct from '@/components/Form/FormProduct.vue';
 import { callApiPutProduct } from '../../../api/product'
 
-export default {
+export default Vue.extend({
     name: 'editProduct',
     layout: 'products',
     data() {
         return{
-            isNotificat: false,
+            isNotificat: false as boolean,
         }
     },
     components: { FormProduct },
     methods:{
-        async handleEditProduct(product, productStore){
+        async handleEditProduct(product: any, productStore: any){
             try {
-                let res = await callApiPutProduct({
+                let res: any = await callApiPutProduct({
                     ...productStore, 
                     title: product.title, 
                     type: product.type, 
@@ -43,9 +44,9 @@ export default {
             }
         },
     },
-}
+})
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 
 </style>

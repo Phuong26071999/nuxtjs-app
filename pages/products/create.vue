@@ -26,12 +26,14 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-      
+    }   
+  },
+  created() {
+      console.log(this.$route.query.plan);
   }
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 
 </style>
