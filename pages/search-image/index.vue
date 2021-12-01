@@ -26,12 +26,12 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-row justify="center" v-if="result.length > 0">
-                <v-col cols="8">
+            <v-row class="box-pagination" justify="center" v-if="result.length > 0">
+                <v-col cols="12">
                     <v-container>
                         <v-pagination
                         v-model="params.page"
-                        class="my-4"
+                        
                         :length="totalPages"
                         @input="handlePaginationClick"
                         ></v-pagination>
@@ -125,6 +125,19 @@ export default Vue.extend ({
        }
     }
   }
-  
+}
+@media only screen and (max-width: 767px) {
+    .container{
+        .row-box{
+            .img-box{
+                height: auto !important;
+            }
+        }
+        .box-pagination{
+            width: 100%;
+            margin: 0;
+        }
+    }
+    
 }
 </style>
