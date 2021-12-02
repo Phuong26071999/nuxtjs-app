@@ -3,14 +3,14 @@
       <v-alert type="success" v-if="isNotificat">
                 Bạn đã sửa sản phẩm thành công !!!
         </v-alert>
-        <FormProduct  :onReceiveHandleEdit="handleEditProduct" :turnOffLoading="turnOffLoading" />
+        <FormProduct  :onReceiveHandleEdit="handleEditProduct" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import FormProduct from '@/components/Form/FormProduct.vue';
 import { callApiPutProduct } from '../../../api/product'
+import FormProduct from '@/components/Form/FormProduct.vue';
 
 export default Vue.extend({
     name: 'editProduct',
@@ -24,7 +24,7 @@ export default Vue.extend({
     methods:{
         async handleEditProduct(product: any, productStore: any){
             try {
-                let res: any = await callApiPutProduct({
+                const res: any = await callApiPutProduct({
                     ...productStore, 
                     title: product.title, 
                     type: product.type, 

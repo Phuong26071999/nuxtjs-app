@@ -13,7 +13,7 @@
                         width="350px"
                     ></v-skeleton-loader>
                     <div v-else>
-                        <ProductItem :ProductItem="product" :handleDetail="handleDetail" :onReceiveDelProduct="refetchProducts"/>
+                        <ProductItem :productItem="product" :handleDetail="handleDetail" :onReceiveDelProduct="refetchProducts"/>
                     </div>
                 </v-col>
             </v-row>

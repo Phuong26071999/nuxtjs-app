@@ -1,10 +1,10 @@
 <template>
     <div class="search-wrapper">
         <div class="search-input">
-            <v-text-field  label="Search for product" v-model="searchText"></v-text-field>
+            <v-text-field v-model="searchText"  label="Search for product" ></v-text-field>
             <v-btn @click="getSearch">Search</v-btn>
         </div>
-        <ul class="search-box-list" v-if="searchText">
+        <ul v-if="searchText" class="search-box-list">
             <li v-for="result in resultSearch" :key="result.id">
                 <router-link
                 :to="`/products/${result.id}`">
@@ -16,7 +16,7 @@
                     <span>{{ result.title }}</span>
                 </router-link>
             </li>
-            <div class="emptysearch" v-if="emptySearch" >
+            <div v-if="emptySearch" class="emptysearch"  >
                 <p>Not found your product !</p>
             </div>
         </ul>
@@ -25,6 +25,8 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable array-callback-return */
+/* eslint-disable vue/order-in-components */
 import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -55,7 +57,7 @@ export default Vue.extend({
         },
         handleSearch() {
             if (this.searchText.length) {
-                let filterProduct = this.productList.filter((product: any) => {
+                const filterProduct = this.productList.filter((product: any) => {
                     if (
                         (product.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
                         product.type
@@ -78,7 +80,6 @@ export default Vue.extend({
             }
         },
         clearSearchBar(){
-            console.log('click');
             this.searchText = "";
         },
         getSearch() {
@@ -92,7 +93,6 @@ export default Vue.extend({
     watch: {
         searchText() {
             this.handleSearch();
-            console.log(this.searchText);
         }
     },
 })

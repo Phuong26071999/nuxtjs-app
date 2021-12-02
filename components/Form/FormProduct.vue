@@ -69,7 +69,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
     name: 'FormProduct',
-    props:['onReceiveHandleEdit','onReceiveHandleSubmit', 'turnOffLoading'],
+    props:['onReceiveHandleEdit','onReceiveHandleSubmit' ],
     data() {
         return {
             product: {

@@ -15,7 +15,7 @@ export default {
   methods: {
     async handleSubmit(product){
       try {
-          let response = await callApiPostProduct(product);
+          const response = await callApiPostProduct(product);
           console.log(response);
           if (response) {
               alert('Bạn đã thêm sản phẩm thành công !!!');

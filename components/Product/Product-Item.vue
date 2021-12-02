@@ -1,3 +1,4 @@
+
 <template>
     <v-card
       class="mx-auto card-box"
@@ -17,7 +18,7 @@
       <v-list-item three-line>
         <v-list-item-content>
           <div class="text-overline mb-4">
-            {{ ProductItem.title }}
+            {{ productItem.title }}
           </div>
           <div class="img-box">
             <v-img
@@ -25,18 +26,18 @@
                 lazy-src="https://picsum.photos/id/11/10/6"
                 max-height="250"
                 max-width="250"
-                :src="ProductItem.img"
+                :src="productItem.img"
             ></v-img>
           </div>
           <v-row class="info --modified">
             <v-col>
               <v-list-item-title>
-                Type: {{ ProductItem.type }}
+                Type: {{ productItem.type }}
               </v-list-item-title>
             </v-col>
             <v-col>
               <v-list-item-title>
-                Price: {{ checkPrice(ProductItem.price) }}
+                Price: {{ checkPrice(productItem.price) }}
               </v-list-item-title>
             </v-col>
           </v-row>
@@ -55,7 +56,7 @@
             <v-btn
               depressed
               color="success"
-              @click="handleDetail(ProductItem)"
+              @click="handleDetail(productItem)"
             >
               Detail
             </v-btn>
@@ -78,15 +79,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import { callApiDelProduct } from '../../api/product';
-
+/* eslint-disable vue/require-prop-types */
 export default Vue.extend({
-    name: 'product-item',
+    name: 'ProductItem',
+    props: ['productItem', 'handleDetail', 'onReceiveDelProduct'],
     data(){
       return{
         dialogDelete: false as boolean,
       };
     },
-    props: ['ProductItem', 'handleDetail', 'onReceiveDelProduct'],
     methods: {
       checkPrice(price: number) {
         if(Number.isInteger(price % 2)){
@@ -97,19 +98,18 @@ export default Vue.extend({
       },
       turnOnDialog(): void {
         this.dialogDelete = true;
-        console.log(this.dialogDelete);
       },
       closeDelete(): void {
         this.dialogDelete = false;
       },
       async handleDelete() {
           try {
-            let res = await callApiDelProduct(this.ProductItem.id);
-            if(res && res.status == 200){
+            const res = await callApiDelProduct(this.productItem.id);
+            if(res && res.status === 200){
               this.onReceiveDelProduct();
             }
           } catch (error) {
-            console.log(error);
+              // console.log(error);
           }
       }
     }
