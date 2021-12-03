@@ -6,30 +6,16 @@
     </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import Header from '../components/HeaderProduct.vue';
 import Footer from '../components/FooterProduct.vue';
 
-export default {
-    name: 'products',
+export default Vue.extend({
+    name: 'Products',
     components: {
         Header,
         Footer
     },
-}
+})
 </script>
-
-<style>
-/* .product-wrapper{
-    min-height: 700px;
-} */
-
-/* .footer{
-    line-height: 50px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-} */
-</style>

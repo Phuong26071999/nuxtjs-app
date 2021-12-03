@@ -1,70 +1,96 @@
+import { ProductList } from 'identification';
 import {
     callApiGetProduct,
     callApiGetProductID,
     callApiPostProduct,
     callApiPutProduct,
 } from '../api/product'
-import { ProductList } from 'identification';
-
-// const FETCH = 'fetch'
-// const SHOW = 'show'
-// const EDIT = 'edit'
-// const DELETE = 'delete'
-// const ADD = 'add'
 
 export const state = () => ({
     productList: [] as Array<ProductList>,
     productID: {},
+    alert: {
+      text: '' as string,
+      type: undefined as string,
+      isDisplay: false as boolean,
+    },
+    infoImage: {},
+    isDisplayPopup: false as boolean,
 })
 
 export const getters = {
     getProductList: (state: any) => state.productList,
     getProductID: (state: any) => state.productID,
-    // getProductById: (state) => (id) => {
-    //     let result = state.productList.find(product => Number(product.id) === Number(id))
-    //     console.log(result);
-    //     return result;
-    // },
+    getAlert: (state: any) => state.alert,
+    getInfoImage: (state: any) => state.infoImage,
+    getIsDisplayPopup: (state: any) => state.isDisplayPopup,
 }
 
 export const actions = {
-    // async getUsers({ commit }, data = {}) {
-    //     let response = await callApiFetch(data)
-    //     console.log(response.data);
-    //     return commit('setProducts', response.data);
-    // },
-
 // =============================Product =============================
     async getProducts({ commit }: any) {
-        let response = await callApiGetProduct()
+        const response = await callApiGetProduct()
         commit('setProducts', response.data);
     },
 
     async getProductID({ commit }: any, id: any) {
-        let response = await callApiGetProductID(id)
+        const response = await callApiGetProductID(id)
         commit('setProductID', response.data);
     },
 
-    async postProducts({ commit }: any, data = {}) {
-        let response = await callApiPostProduct(data);
+    async postProducts( data = {}) {
+        const response = await callApiPostProduct(data);
         return response;
     },
 
-    async putProducts({ commit }: any, data = {}) {
-        let response = await callApiPutProduct(data);
+    async putProducts( data = {}) {
+        const response = await callApiPutProduct(data);
         return response;
     },
 
+    handleDisplayAlert({ commit }: any, data: any) {
+        commit('showAlert', data);
+        setTimeout(() => {
+          commit('hiddenAlert');
+        }, 1000);
+    },
+
+    handleDisplayPopup ({ commit }: any, data: any) {
+      commit('showPopup', data);
+    },
+
+    handleHiddenPopup ({ commit }: any) {
+      commit('hiddenPopup');
+    }
 }
 
 export const mutations = {
-    // [FETCH](state, { users }) {
-    //     return state.users = users;
-    // },
     setProducts(state: any, response: any) {
         state.productList = response;
     },
     setProductID(state: any, response: any) {
         state.productID = response;
     },
+    showAlert(state: any, data: any) {
+      state.alert = {
+        ...data,
+        isDisplay: true,
+      };
+    },
+    hiddenAlert (state: any) {
+      state.alert = {
+        text: '',
+        type:  undefined,
+        isDisplay: false,
+      }
+    },
+    showPopup (state: any, data: any) {
+      state.infoImage = data;
+      state.isDisplayPopup = true;
+
+    },
+    hiddenPopup (state: any) {
+      state.isDisplayPopup = false;
+    }
+
 }

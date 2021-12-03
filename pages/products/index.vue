@@ -4,11 +4,11 @@
           <SearchBar />
           <v-container class="container-wrap">
             <v-row class="wrapper-row">
-                <v-col class="wrapper-row-item pa-3" cols="12" xl="3" md="4" lg="4" sm="6" v-for="product in productList" :key="product.id">
+                <v-col v-for="product in productList" :key="product.id" class="wrapper-row-item pa-3"  cols="12" xl="3" md="4" lg="4" sm="6"  >
                     <v-skeleton-loader
+                    v-if="isLoading"
                         v-bind="attrs"
                         type="card-avatar, actions"
-                        v-if="isLoading"
                         height="400px"
                         width="350px"
                     ></v-skeleton-loader>
@@ -32,23 +32,26 @@ export default Vue.extend({
     // async fetch() {
     //     await this.getProducts();
     // },
-    name: 'product',
+    name: 'Product',
+    components: { ProductItem, SearchBar },
+    layout: 'products',
     data() {
         return{
             isLoading: true as boolean,
             attrs: {
-                class: 'mb-6' as string,
-                boilerplate: true as boolean,
-                elevation: 2 as number,
+              class: 'mb-6' as string,
+              boilerplate: true as boolean,
+              elevation: 2 as number,
             },
         }
     },
-    layout: 'products',
-    components: { ProductItem, SearchBar },
     computed: {
         ...mapGetters({
             productList: 'product/getProductList'
         }),
+    },
+    created() {
+        this.getProductListFromStore();
     },
     methods: {
         ...mapActions({
@@ -62,7 +65,7 @@ export default Vue.extend({
                 try {
                     await this.getProducts()
                 } catch (error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             }, 1000);
         },
@@ -70,13 +73,10 @@ export default Vue.extend({
             try {
                 await this.getProducts();
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
             this.isLoading = false;
         },
-    },
-    created() {
-        this.getProductListFromStore();
     },
 })
 </script>
