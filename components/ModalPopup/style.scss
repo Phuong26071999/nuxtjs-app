@@ -152,7 +152,7 @@
     align-items: center;
     padding: 16px;
     .popup{
-      max-height: 650px;
+      max-height: 500px;
       &__header{
         display: initial;
         .author{
@@ -172,6 +172,13 @@
           margin-top: 10px;
         }
       }
+      &__main-img{
+        .img-box{
+          img{
+            max-height: 350px;
+          }
+        }
+      }
       &__footer{
         .info-User{
           display: block;
@@ -184,10 +191,11 @@
     }
     .btn-close{
       top: 0;
-      left: 0;
-      min-width: 40px;
-      min-height: 40px;
-      font-size: 22px !important;
+      right: 0;
+      left: initial;
+      min-width: 10px;
+      min-height: 10px;
+      font-size: 12px !important;
     }
   }
 }

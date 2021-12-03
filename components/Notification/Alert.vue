@@ -28,8 +28,10 @@ export default {
     display: flex;
     justify-content: center;
     position: fixed;
-    top: 80px;
-    right: -10px;
+    // top: 80px;
+    // right: -10px;
+    top: 0;
+    right: 0;
     z-index: 99;
     max-width: 500px;
     min-width: 300px;
@@ -38,7 +40,7 @@ export default {
     transition: all ease-in-out 0.3s;
       &.--active {
           transform: translatex(0);
-          right: 10px;
+          // right: 10px;
           height: unset !important;
           transition: all ease-in-out 0.3s;
       }
