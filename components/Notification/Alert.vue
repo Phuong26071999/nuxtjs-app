@@ -1,11 +1,13 @@
 <template>
-  <v-alert
-    :class="getAlert.isDisplay ? 'alert --active' : 'alert'"
-    dense
-    elevation="9"
-    prominent
-    :type="getAlert.type"
-  >{{ getAlert.text }}</v-alert>
+  <div v-if="getAlert.isDisplay">
+    <v-alert
+      :class="getAlert.isDisplay ? 'alert --active' : 'alert'"
+      dense
+      elevation="9"
+      prominent
+      :type="getAlert.type"
+    >{{ getAlert.text }}</v-alert>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,11 +35,12 @@ export default {
     min-width: 300px;
     height: 60px;
     transform: translatex(100%);
-    transition: all ease-in-out 0.25s;
+    transition: all ease-in-out 0.3s;
       &.--active {
           transform: translatex(0);
           right: 10px;
           height: unset !important;
+          transition: all ease-in-out 0.3s;
       }
   }
 </style>
