@@ -167,7 +167,7 @@ export default Vue.extend ({
                 // console.log(error);
             }
         },
-        handlePaginationClick() {
+        handleSrollToTop() {
             this.isLoading = true;
             this.handleSearch();
             window.scrollTo({
@@ -188,6 +188,7 @@ export default Vue.extend ({
           this.params.query = word;
           this.isLoading = true;
           this.isSubmit = true;
+          this.handleSrollToTop();
           this.handleSearch();
         }
     },
