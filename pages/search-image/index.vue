@@ -25,9 +25,10 @@
             <v-row class="row-box">
                 <v-col v-for="image in result" :key="image.id" align-self="center" cols="12" lg="6" md="6" xl="4" class="column-box">
                     <LoadingSkeleton v-if="isLoading" />
-                    <div v-else class="image">
-                        <img class="image__img" width="100%" :src="image.urls.regular">
-                        <div class="modal" @click="handleModal(image)">
+                    <div v-else>
+                        <div class="image">
+                          <img class="image__img" width="100%" :src="image.urls.regular">
+                          <div class="modal">
                             <div class="modal__header">
                                 <div class="btn-group">
                                     <v-btn
@@ -62,13 +63,23 @@
                                       class="mx-2"
                                       small
                                     >
-                                      <v-icon>
-                                        mdi-cloud-download
-                                      </v-icon>
+                                      <a rel="nofollow" target="_blank"  title="Download photo"
+                                        :href="image.links.download+';force=true'">
+                                        <v-icon>mdi-cloud-download</v-icon>
+                                      </a>
                                     </v-btn>
                                 </div>
                             </div>
-                        </div>
+                            <div class="modal-cover" @click="handleModal(image)"></div>
+                          </div>
+                      </div>
+                      <div class="keyword" >
+                          <div v-for="word in image.tags" :key="word.title" >
+                            <div class="keyword__item" @click="handletext(word.title)">
+                              <span>{{ word.title }}</span>
+                            </div>
+                          </div>
+                      </div>
                     </div>
                 </v-col>
             </v-row>
@@ -78,8 +89,9 @@
                     dark
                     small
                     color="cyan"
-                    @click="handleView"
-                   >view more</v-btn>
+                   >
+                   view more
+                   </v-btn>
                 </v-col>
             </v-row>
             <ModalPopup />
@@ -165,10 +177,18 @@ export default Vue.extend ({
         },
         handleView() {
           this.params.page = this.params.page + 1;
+          this.isLoading = true;
           this.handleSearch();
         },
         handleModal(image) {
           this.handleDisplayPopup(image);
+        },
+        handletext(word) {
+          this.params.page = 1;
+          this.params.query = word;
+          this.isLoading = true;
+          this.isSubmit = true;
+          this.handleSearch();
         }
     },
 })

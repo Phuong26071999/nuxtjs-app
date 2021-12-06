@@ -25,8 +25,11 @@
                     mdi-plus
                 </v-icon>
             </v-btn>
-            <v-btn dark color="teal" small>
+            <v-btn class="download" dark color="teal" small>
+              <a rel="nofollow" target="_blank"  title="Download photo"
+                :href="getInfoImage.links.download+';force=true'">
                 Download
+              </a>
             </v-btn>
           </div>
         </div>
@@ -79,9 +82,11 @@
             </div>
           </div>
         </div>
+        <div class="btn-close" @click="handleClosePopup">
+          <span >X</span>
+        </div>
     </div>
     <div v-else></div>
-    <v-btn color="pink" dark small class="btn-close" @click="handleClosePopup">X</v-btn>
   </div>
 </template>
 
