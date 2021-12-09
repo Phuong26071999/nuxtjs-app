@@ -1,5 +1,7 @@
 .row-box {
   height: auto;
+  // max-width: 1320px;
+  // margin: 0 auto;
   .column-box{
     height: 100%;
     width: 100%;
@@ -187,11 +189,20 @@
   }
 }
 @media only screen and (max-width: 991px) {
-.container{
-    .row-box{
-        .image{
-            height: auto !important;
-        }
-    }
+  .container{
+      .row-box{
+          .image{
+              height: auto;
+          }
+      }
+  }
 }
-}
+// @media only screen and (max-width: 1024px) {
+//   .container{
+//       .row-box{
+//           .image{
+//               height: 300px;
+//           }
+//       }
+//   }
+// }
