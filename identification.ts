@@ -10,3 +10,4 @@ export interface ProductList {
     type: string;
     img: string;
 }
+

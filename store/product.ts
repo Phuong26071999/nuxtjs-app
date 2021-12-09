@@ -6,24 +6,19 @@ import {
     callApiPutProduct,
 } from '../api/product'
 
-export const state = () => ({
-    productList: [] as Array<ProductList>,
+interface collectionState {
+  productList:  Array<ProductList>,
+  productID: object,
+}
+
+export const state = (): collectionState => ({
+    productList: [],
     productID: {},
-    alert: {
-      text: '' as string,
-      type: undefined as string,
-      isDisplay: false as boolean,
-    },
-    infoImage: {},
-    isDisplayPopup: false as boolean,
 })
 
 export const getters = {
-    getProductList: (state: any) => state.productList,
-    getProductID: (state: any) => state.productID,
-    getAlert: (state: any) => state.alert,
-    getInfoImage: (state: any) => state.infoImage,
-    getIsDisplayPopup: (state: any) => state.isDisplayPopup,
+    getProductList: (state: collectionState) => state.productList,
+    getProductID: (state: collectionState) => state.productID,
 }
 
 export const actions = {
@@ -47,50 +42,13 @@ export const actions = {
         const response = await callApiPutProduct(data);
         return response;
     },
-
-    handleDisplayAlert({ commit }: any, data: any) {
-        commit('showAlert', data);
-        setTimeout(() => {
-          commit('hiddenAlert');
-        }, 1000);
-    },
-
-    handleDisplayPopup ({ commit }: any, data: any) {
-      commit('showPopup', data);
-    },
-
-    handleHiddenPopup ({ commit }: any) {
-      commit('hiddenPopup');
-    }
 }
 
 export const mutations = {
-    setProducts(state: any, response: any) {
+    setProducts(state: collectionState, response: any) {
         state.productList = response;
     },
-    setProductID(state: any, response: any) {
+    setProductID(state: collectionState, response: any) {
         state.productID = response;
     },
-    showAlert(state: any, data: any) {
-      state.alert = {
-        ...data,
-        isDisplay: true,
-      };
-    },
-    hiddenAlert (state: any) {
-      state.alert = {
-        text: '',
-        type:  undefined,
-        isDisplay: false,
-      }
-    },
-    showPopup (state: any, data: any) {
-      state.infoImage = data;
-      state.isDisplayPopup = true;
-
-    },
-    hiddenPopup (state: any) {
-      state.isDisplayPopup = false;
-    }
-
 }

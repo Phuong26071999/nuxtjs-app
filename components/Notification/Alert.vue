@@ -17,7 +17,7 @@ export default {
   name: "Alert",
   computed: {
     ...mapGetters({
-        getAlert: 'product/getAlert'
+        getAlert: 'image/getAlert'
     }),
   },
 }

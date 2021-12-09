@@ -1,4 +1,4 @@
-import { axiosProduct, axiosImage } from "./config";
+import { axiosProduct } from "./config";
 
 // export function callApiFetch(params = {}) {
 //     return axios.get('/user', { params });
@@ -30,7 +30,3 @@ export function callApiDelProduct(id) {
     return axiosProduct.delete(`/products/${id}`);
 }
 
-// ============================ Image =============================
-export function callApiImage(params) {
-    return axiosImage.get(`/search/photos`, {params});
-}

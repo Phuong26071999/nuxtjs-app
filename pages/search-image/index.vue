@@ -1,101 +1,53 @@
 <template>
     <v-container class="search-wrap">
-            <AlertNotificate />
-            <v-row class="box-textfield">
-                <v-col cols="12" lg="8" md="8" xl="8">
-                    <v-form class="form-wrapper">
-                        <v-text-field
-                          v-model="params.query"
-                          type="text"
-                          placeholder="Name of your image"
-                          hide-details=true
-                          outlined
-                          class="custom-input"></v-text-field>
-                        <v-btn
-                        class="btn-search"
-                         type="buttom"
-                         color="info"
-                         :loading="isSubmit"
-                         :disabled="isSubmit"
-                         @click.prevent="handleSubmit"
-                        >Search</v-btn>
-                    </v-form>
-                </v-col>
-            </v-row>
-            <v-row class="row-box">
-                <v-col v-for="image in result" :key="image.id" align-self="center" cols="12" lg="6" md="6" xl="4" class="column-box">
-                    <LoadingSkeleton v-if="isLoading" />
-                    <div v-else>
-                        <div class="image">
-                          <img class="image__img" width="100%" :src="image.urls.regular">
-                          <div class="modal">
-                            <div class="modal__header">
-                                <div class="btn-group">
-                                    <v-btn
-                                        class="mx-2"
-                                        small
-                                    >
-                                        <v-icon>
-                                            mdi-heart
-                                        </v-icon>
-                                    </v-btn>
-                                    <v-btn
-                                        class="mx-2"
-                                        small
-                                    >
-                                        <v-icon>
-                                            mdi-plus
-                                        </v-icon>
-                                    </v-btn>
-                                </div>
-                            </div>
-                            <div class="modal__footer">
-                                <div class="author">
-                                    <div class="author__avatar">
-                                        <img ref="author__avatar" :src="image.user.profile_image.small" />
-                                    </div>
-                                    <div class="author__name">
-                                      <span>{{ image.user.name }}</span>
-                                    </div>
-                                </div>
-                                <div class="download">
-                                    <v-btn
-                                      class="mx-2"
-                                      small
-                                    >
-                                      <a rel="nofollow" target="_blank"  title="Download photo"
-                                        :href="image.links.download+';force=true'">
-                                        <v-icon>mdi-cloud-download</v-icon>
-                                      </a>
-                                    </v-btn>
-                                </div>
-                            </div>
-                            <div class="modal-cover" @click="handleModal(image)"></div>
-                          </div>
-                      </div>
-                      <div class="keyword" >
-                          <div v-for="word in image.tags" :key="word.title" >
-                            <div class="keyword__item" @click="handletext(word.title)">
-                              <span>{{ word.title }}</span>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                </v-col>
-            </v-row>
-            <v-row v-if="result.length > 0" class="box-pagination">
-                <v-col cols="6" style="margin: auto">
-                  <v-btn
-                    dark
-                    small
-                    color="cyan"
-                   >
-                   view more
-                   </v-btn>
-                </v-col>
-            </v-row>
-            <ModalPopup />
-        </v-container>
+          <AlertNotificate />
+          <v-row class="box-textfield">
+              <v-col cols="12" lg="8" md="8" xl="8">
+                  <v-form class="form-wrapper">
+                      <v-text-field
+                        v-model="params.query"
+                        type="text"
+                        placeholder="Name of your image"
+                        hide-details=true
+                        outlined
+                        class="custom-input"></v-text-field>
+                      <v-btn
+                      class="btn-search"
+                        type="buttom"
+                        color="info"
+                        :loading="isSubmit"
+                        :disabled="isSubmit"
+                        @click.prevent="handleSubmit"
+                      >Search</v-btn>
+                  </v-form>
+              </v-col>
+          </v-row>
+          <div :class="isDisplayButton ? 'btn-top active' : 'btn-top'">
+            <v-btn
+              fab
+              dark
+              small
+              color="info"
+              @click="handleSrollToTop(true)"
+            >
+              <v-icon>mdi-arrow-up-bold</v-icon>
+            </v-btn>
+          </div>
+          <ImageAuthorRelated :result="result" :handlemodal="handleModal" :handletext="handletext" :isloading="isLoading" :column_size="column_size"/>
+          <v-row v-if="result.length > 0" class="box-pagination">
+            <v-col cols="6" style="margin: auto">
+              <v-btn
+                dark
+                small
+                color="cyan"
+                @click="handleView"
+                >
+                view more
+                </v-btn>
+            </v-col>
+          </v-row>
+          <ModalPopup />
+      </v-container>
 </template>
 
 <script lang="ts">
@@ -103,14 +55,13 @@ import Vue from 'vue';
 import { mapActions } from 'vuex';
 import {
     callApiImage,
-} from '@/api/product'
-import LoadingSkeleton from "@/components/LoadingSkeleton.vue";
+} from '@/api/images'
 import AlertNotificate from "@/components/Notification/Alert.vue";
-import ModalPopup from "@/components/ModalPopup/index.vue";
+import ImageAuthorRelated from "@/components/ImageAuthorRelated/index.vue";
 
 export default Vue.extend ({
     name: 'SearchImage',
-    components: { LoadingSkeleton, AlertNotificate, ModalPopup },
+    components: { AlertNotificate, ImageAuthorRelated },
     data() {
         return {
             params: {
@@ -119,17 +70,26 @@ export default Vue.extend ({
                 query: '',
                 page: 1,
             },
+            column_size: {
+              lg: "6",
+              md: "6",
+              xl: "4"
+            },
             isSubmit: false,
             totalPages: 0,
             result: [],
             currentPage: 1,
             isLoading: true,
+            isDisplayButton: false,
         };
+    },
+    mounted() {
+      window.addEventListener('scroll', this.handleDisplayButton)
     },
     methods: {
         ...mapActions({
-            handleDisplayAlert: 'product/handleDisplayAlert',
-            handleDisplayPopup: 'product/handleDisplayPopup'
+            handleDisplayAlert: 'image/handleDisplayAlert',
+            handleDisplayPopup: 'image/handleDisplayPopup'
         }),
         handleSubmit() {
             this.params.page = 1;
@@ -167,13 +127,22 @@ export default Vue.extend ({
                 // console.log(error);
             }
         },
-        handleSrollToTop() {
-            this.isLoading = true;
-            this.handleSearch();
+        handleSrollToTop(button = false) {
+            if(!button){
+              this.isLoading = true;
+              this.handleSearch();
+            }
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             })
+        },
+        handleDisplayButton() {
+          if(window.scrollY > 500) {
+            this.isDisplayButton = true
+          } else {
+             this.isDisplayButton = false
+          }
         },
         handleView() {
           this.params.page = this.params.page + 1;
@@ -182,6 +151,8 @@ export default Vue.extend ({
         },
         handleModal(image) {
           this.handleDisplayPopup(image);
+          document.documentElement.style.overflow = 'hidden'
+          this.isDisplayButton = false;
         },
         handletext(word) {
           this.params.page = 1;
